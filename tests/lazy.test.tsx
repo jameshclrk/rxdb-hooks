@@ -10,6 +10,7 @@ import {
 import { render, screen, waitFor } from '@testing-library/react';
 import { RxCollection, addRxPlugin } from 'rxdb';
 import useRxData from '../src/useRxData';
+import DBProvider from '../src/DBProvider';
 import Provider from '../src/Provider';
 import { observeNewCollections } from '../src/plugins';
 import { characters } from './mockData';
@@ -18,6 +19,7 @@ import { act } from 'react-dom/test-utils';
 addRxPlugin(observeNewCollections);
 
 describe('useRxData + lazy collection init', () => {
+	const dbName = 'testDb';
 	let db: MyDatabase;
 
 	beforeEach(async done => {
@@ -41,7 +43,7 @@ describe('useRxData + lazy collection init', () => {
 				result: characters,
 				isFetching,
 				isExhausted,
-			} = useRxData<Character>('characters', queryConstructor);
+			} = useRxData<Character>(dbName, 'characters', queryConstructor);
 
 			return (
 				<>
@@ -55,8 +57,10 @@ describe('useRxData + lazy collection init', () => {
 		};
 
 		render(
-			<Provider db={db}>
-				<Child />
+			<Provider>
+				<DBProvider dbName={dbName} db={db}>
+					<Child />
+				</DBProvider>
 			</Provider>
 		);
 
@@ -94,7 +98,7 @@ describe('useRxData + lazy collection init', () => {
 				result: characters,
 				isFetching,
 				isExhausted,
-			} = useRxData<Character>('characters', queryConstructor);
+			} = useRxData<Character>(dbName, 'characters', queryConstructor);
 
 			return (
 				<>
@@ -108,8 +112,10 @@ describe('useRxData + lazy collection init', () => {
 		};
 
 		render(
-			<Provider db={db}>
-				<Child />
+			<Provider>
+				<DBProvider dbName={dbName} db={db}>
+					<Child />
+				</DBProvider>
 			</Provider>
 		);
 

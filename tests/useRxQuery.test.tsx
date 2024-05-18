@@ -9,10 +9,12 @@ import {
 import { render, screen, waitFor } from '@testing-library/react';
 import useRxQuery from '../src/useRxQuery';
 import Provider from '../src/Provider';
+import DBProvider from '../src/DBProvider';
 import { characters } from './mockData';
 import useRxCollection from '../src/useRxCollection';
 
 describe('useRxQuery', () => {
+	const dbName = 'testDb';
 	let db: MyDatabase;
 
 	beforeAll(async done => {
@@ -27,7 +29,7 @@ describe('useRxQuery', () => {
 
 	it('should allow invocation with no options', async done => {
 		const Child: FC = () => {
-			const collection = useRxCollection<Character>('characters');
+			const collection = useRxCollection<Character>(dbName, 'characters');
 			const query = useMemo(() => {
 				if (!collection) {
 					return;
@@ -51,8 +53,10 @@ describe('useRxQuery', () => {
 		};
 
 		render(
-			<Provider db={db}>
-				<Child />
+			<Provider>
+				<DBProvider dbName="testDb" db={db}>
+					<Child />
+				</DBProvider>
 			</Provider>
 		);
 

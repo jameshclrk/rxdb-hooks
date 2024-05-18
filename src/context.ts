@@ -2,9 +2,11 @@ import { createContext } from 'react';
 import { RxDatabaseBaseExtended } from './plugins';
 
 export interface RxContext {
-	db: RxDatabaseBaseExtended | null;
+	dbs: Record<string, RxDatabaseBaseExtended>;
+	addDb: (name: string, db: RxDatabaseBaseExtended) => void;
 }
 
-const Context = createContext<RxContext>(null);
+/* eslint-disable-next-line @typescript-eslint/no-empty-function */
+const Context = createContext<RxContext>({ dbs: {}, addDb() {} });
 
 export default Context;

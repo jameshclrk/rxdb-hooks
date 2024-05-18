@@ -12,12 +12,14 @@ import { addRxPlugin, RxCollection } from 'rxdb';
 import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder';
 import useRxData from '../src/useRxData';
 import Provider from '../src/Provider';
+import DBProvider from '../src/DBProvider';
 import { characters } from './mockData';
 import { act } from 'react-dom/test-utils';
 
 addRxPlugin(RxDBQueryBuilderPlugin);
 
 describe('useRxData', () => {
+	const dbName = 'testDb';
 	let db: MyDatabase;
 
 	beforeAll(async done => {
@@ -42,7 +44,7 @@ describe('useRxData', () => {
 				isExhausted,
 				resetList,
 				fetchPage,
-			} = useRxData<Character>('characters', queryConstructor);
+			} = useRxData<Character>(dbName, 'characters', queryConstructor);
 
 			return (
 				<>
@@ -64,8 +66,10 @@ describe('useRxData', () => {
 		};
 
 		render(
-			<Provider db={db}>
-				<Child />
+			<Provider>
+				<DBProvider dbName="testDb" db={db}>
+					<Child />
+				</DBProvider>
 			</Provider>
 		);
 
@@ -133,7 +137,7 @@ describe('useRxData', () => {
 				isFetching,
 				isExhausted,
 				resetList,
-			} = useRxData<Character>('characters', queryConstructor, {
+			} = useRxData<Character>(dbName, 'characters', queryConstructor, {
 				json: true,
 			});
 
@@ -150,8 +154,10 @@ describe('useRxData', () => {
 		};
 
 		render(
-			<Provider db={db}>
-				<Child />
+			<Provider>
+				<DBProvider dbName="testDb" db={db}>
+					<Child />
+				</DBProvider>
 			</Provider>
 		);
 
@@ -188,7 +194,7 @@ describe('useRxData', () => {
 				isFetching,
 				isExhausted,
 				resetList,
-			} = useRxData<Character>('characters', queryConstructor, {
+			} = useRxData<Character>(dbName, 'characters', queryConstructor, {
 				json: false,
 				pagination: 'Traditional',
 				pageSize: 2,
@@ -207,8 +213,10 @@ describe('useRxData', () => {
 		};
 
 		render(
-			<Provider db={db}>
-				<Child />
+			<Provider>
+				<DBProvider dbName="testDb" db={db}>
+					<Child />
+				</DBProvider>
 			</Provider>
 		);
 
@@ -243,7 +251,7 @@ describe('useRxData', () => {
 				result: characters,
 				isFetching,
 				isExhausted,
-			} = useRxData<Character>('characters', queryConstructor, {
+			} = useRxData<Character>(dbName, 'characters', queryConstructor, {
 				json: true,
 			});
 
@@ -257,8 +265,10 @@ describe('useRxData', () => {
 		};
 
 		render(
-			<Provider db={db}>
-				<Child />
+			<Provider>
+				<DBProvider dbName="testDb" db={db}>
+					<Child />
+				</DBProvider>
 			</Provider>
 		);
 
@@ -297,7 +307,7 @@ describe('useRxData', () => {
 				currentPage,
 				fetchMore,
 				resetList,
-			} = useRxData<Character>('characters', queryConstructor, {
+			} = useRxData<Character>(dbName, 'characters', queryConstructor, {
 				pageSize,
 			});
 
@@ -314,8 +324,10 @@ describe('useRxData', () => {
 		};
 
 		render(
-			<Provider db={db}>
-				<Child />
+			<Provider>
+				<DBProvider dbName="testDb" db={db}>
+					<Child />
+				</DBProvider>
 			</Provider>
 		);
 
@@ -477,7 +489,7 @@ describe('useRxData', () => {
 				fetchPage,
 				fetchMore,
 				resetList,
-			} = useRxData<Character>('characters', queryConstructor, {
+			} = useRxData<Character>(dbName, 'characters', queryConstructor, {
 				pageSize,
 				pagination: 'Traditional',
 			});
@@ -511,8 +523,10 @@ describe('useRxData', () => {
 		};
 
 		render(
-			<Provider db={db}>
-				<Child />
+			<Provider>
+				<DBProvider dbName="testDb" db={db}>
+					<Child />
+				</DBProvider>
 			</Provider>
 		);
 
@@ -627,7 +641,7 @@ describe('useRxData', () => {
 				result: characters,
 				isFetching,
 				isExhausted,
-			} = useRxData<Character>('characters', queryConstructor, {
+			} = useRxData<Character>(dbName, 'characters', queryConstructor, {
 				pageSize: 2,
 				pagination: 'Traditional',
 			});
@@ -642,8 +656,10 @@ describe('useRxData', () => {
 		};
 
 		render(
-			<Provider db={db}>
-				<Child />
+			<Provider>
+				<DBProvider dbName="testDb" db={db}>
+					<Child />
+				</DBProvider>
 			</Provider>
 		);
 
@@ -673,7 +689,7 @@ describe('useRxData', () => {
 				isFetching,
 				isExhausted,
 				pageCount,
-			} = useRxData<Character>('characters', queryConstructor, {
+			} = useRxData<Character>(dbName, 'characters', queryConstructor, {
 				pageSize: 2,
 				pagination: 'Traditional',
 			});
@@ -691,8 +707,10 @@ describe('useRxData', () => {
 		};
 
 		render(
-			<Provider db={db}>
-				<Child />
+			<Provider>
+				<DBProvider dbName="testDb" db={db}>
+					<Child />
+				</DBProvider>
 			</Provider>
 		);
 
@@ -728,7 +746,7 @@ describe('useRxData', () => {
 				isFetching,
 				isExhausted,
 				fetchMore,
-			} = useRxData<Character>('characters', queryConstructor);
+			} = useRxData<Character>(dbName, 'characters', queryConstructor);
 			return (
 				<CharacterList
 					characters={characters as Character[]}
@@ -740,8 +758,10 @@ describe('useRxData', () => {
 		};
 
 		render(
-			<Provider db={db}>
-				<Child />
+			<Provider>
+				<DBProvider dbName="testDb" db={db}>
+					<Child />
+				</DBProvider>
 			</Provider>
 		);
 
@@ -768,7 +788,7 @@ describe('useRxData', () => {
 				isFetching,
 				isExhausted,
 				fetchMore,
-			} = useRxData<Character>('characters', queryConstructor);
+			} = useRxData<Character>(dbName, 'characters', queryConstructor);
 
 			return (
 				<CharacterList
@@ -780,8 +800,10 @@ describe('useRxData', () => {
 			);
 		};
 		render(
-			<Provider db={db}>
-				<Child />
+			<Provider>
+				<DBProvider dbName="testDb" db={db}>
+					<Child />
+				</DBProvider>
 			</Provider>
 		);
 
@@ -804,7 +826,11 @@ describe('useRxData', () => {
 				isFetching,
 				isExhausted,
 				fetchMore,
-			} = useRxData<Character>('does_not_exist', queryConstructor);
+			} = useRxData<Character>(
+				dbName,
+				'does_not_exist',
+				queryConstructor
+			);
 			return (
 				<CharacterList
 					characters={characters as Character[]}
@@ -815,8 +841,10 @@ describe('useRxData', () => {
 			);
 		};
 		render(
-			<Provider db={db}>
-				<Child />
+			<Provider>
+				<DBProvider dbName="testDb" db={db}>
+					<Child />
+				</DBProvider>
 			</Provider>
 		);
 
@@ -839,7 +867,7 @@ describe('useRxData', () => {
 				isFetching,
 				isExhausted,
 				fetchMore,
-			} = useRxData<Character>('characters', queryConstructor);
+			} = useRxData<Character>(dbName, 'characters', queryConstructor);
 			return (
 				<CharacterList
 					characters={characters as Character[]}
@@ -850,8 +878,10 @@ describe('useRxData', () => {
 			);
 		};
 		render(
-			<Provider db={undefined}>
-				<Child />
+			<Provider>
+				<DBProvider dbName="testDb" db={undefined}>
+					<Child />
+				</DBProvider>
 			</Provider>
 		);
 
@@ -879,7 +909,7 @@ describe('useRxData', () => {
 				result: characters,
 				isFetching,
 				isExhausted,
-			} = useRxData<Character>('characters', queryConstructor);
+			} = useRxData<Character>(dbName, 'characters', queryConstructor);
 
 			return (
 				<>
@@ -900,8 +930,10 @@ describe('useRxData', () => {
 		};
 
 		render(
-			<Provider db={db}>
-				<Child />
+			<Provider>
+				<DBProvider dbName="testDb" db={db}>
+					<Child />
+				</DBProvider>
 			</Provider>
 		);
 

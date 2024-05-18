@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react';
 import { RxCollection } from 'rxdb';
 import useRxDB from './useRxDB';
 
-function useRxCollection<T>(name: string): RxCollection<T> | null {
+function useRxCollection<T>(
+	dbName: string,
+	name: string
+): RxCollection<T> | null {
 	const [collection, setCollection] = useState<RxCollection<T> | null>(null);
-	const db = useRxDB();
+	const db = useRxDB(dbName);
 
 	useEffect(() => {
 		if (!db) {
