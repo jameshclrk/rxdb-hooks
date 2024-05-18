@@ -1,5 +1,7 @@
 export { default as Context } from './context';
 export * from './context';
+export { default as DBProvider } from './DBProvider';
+export * from './DBProvider';
 export { default as Provider } from './Provider';
 export * from './Provider';
 export { default as useRxCollection } from './useRxCollection';
