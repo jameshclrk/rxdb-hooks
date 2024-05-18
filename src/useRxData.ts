@@ -15,17 +15,20 @@ export type QueryConstructor<T> = (
 ) => AnyRxQuery<T> | undefined;
 
 function useRxData<T>(
+	dbName: string,
 	collectionName: string,
 	queryConstructor: QueryConstructor<T> | undefined
 ): RxQueryResultDoc<T>;
 
 function useRxData<T>(
+	dbName: string,
 	collectionName: string,
 	queryConstructor: QueryConstructor<T> | undefined,
 	options?: Override<UseRxQueryOptions, { json?: false }>
 ): RxQueryResultDoc<T>;
 
 function useRxData<T>(
+	dbName: string,
 	collectionName: string,
 	queryConstructor: QueryConstructor<T> | undefined,
 	options?: Override<UseRxQueryOptions, { json: true }>
@@ -36,11 +39,12 @@ function useRxData<T>(
  * & a query constructor function
  */
 function useRxData<T>(
+	dbName: string,
 	collectionName: string,
 	queryConstructor: QueryConstructor<T> | undefined,
 	options: UseRxQueryOptions = {}
 ): RxQueryResult<T> {
-	const collection = useRxCollection<T>(collectionName);
+	const collection = useRxCollection<T>(dbName, collectionName);
 
 	const query = useMemo(() => {
 		if (!collection || typeof queryConstructor !== 'function') {

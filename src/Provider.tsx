@@ -1,21 +1,23 @@
-import React, { useMemo, PropsWithChildren } from 'react';
-import { RxDatabase } from 'rxdb';
+import React, { useMemo, useState, useCallback } from 'react';
 import Context from './context';
 import { RxDatabaseBaseExtended } from './plugins';
 
-export interface ProviderProps<Collections = any> {
-	db?: RxDatabase<Collections>;
-}
-
-const Provider = <C extends unknown>({
-	db,
-	children,
-}: PropsWithChildren<ProviderProps<C>>): JSX.Element => {
+const Provider = ({ children }: { children: JSX.Element }): JSX.Element => {
+	const [dbs, setDbs] = useState<Record<string, RxDatabaseBaseExtended>>({});
+	const addDb = useCallback(
+		(name: string, db: RxDatabaseBaseExtended) => {
+			setDbs(prev => {
+				return { ...prev, [name]: db };
+			});
+		},
+		[setDbs]
+	);
 	const context = useMemo(
 		() => ({
-			db: db as unknown as RxDatabaseBaseExtended,
+			dbs,
+			addDb,
 		}),
-		[db]
+		[dbs, addDb]
 	);
 	return <Context.Provider value={context}>{children}</Context.Provider>;
 };
